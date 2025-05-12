@@ -1,8 +1,9 @@
+import AuthForm from '@/components/AuthForm'
 import React from 'react'
 
 function page() {
   return (
-    <div>Sign-up page</div>
+    <AuthForm type = 'sign-up' /> // Pass the type prop to AuthForm
   )
 }
 
