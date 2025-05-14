@@ -23,6 +23,10 @@ const InterviewCard = ({interviewId, userId, role, type, techstack, createdAt}: 
                         <Image src='/calendar.svg' alt='calendar' width={22} height={22}/>
                         <p className='text-sm'>{formatedDate}</p>
                     </div>
+                    <div className='flex flex-row gap-2 items-center'>
+                        <Image src ='/star.svg' alt='star' width={22} height={22}/>
+                        <p className=''>{feedback?.totalScore |  </p>
+                    </div>
                 </div>
             </div>
             
@@ -31,4 +35,4 @@ const InterviewCard = ({interviewId, userId, role, type, techstack, createdAt}: 
   )
 }
 
-export default InterviewCard
+export default <InterviewCardw></InterviewCardw>
