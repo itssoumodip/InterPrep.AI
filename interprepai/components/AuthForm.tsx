@@ -11,6 +11,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { toast } from "sonner"
 import FormField from "./FormField"
+import { useRouter } from "next/navigation"
 
 const authFormSchema = (type: FormType) => {
    
@@ -23,7 +24,8 @@ const authFormSchema = (type: FormType) => {
 }
 
 const AuthForm = ({type}: {type: FormType}) => {
-     const formSchema = authFormSchema(type);
+    const formSchema = authFormSchema(type);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -38,11 +40,13 @@ const AuthForm = ({type}: {type: FormType}) => {
         try {
             if (type === "sign-up") {
                 console.log("Sign Up", values)
-                toast.success("Account created successfully")
+                toast.success("Account created successfully please sign in")
+                router.push('/sign-in')
             }
             else {
                 console.log("Sign In", values)
-                toast.success("Logged in successfully")
+                toast.success("Sign in successfully")
+                router.push('/')
             }
         } catch (error) {
             console.log("Error", error)
