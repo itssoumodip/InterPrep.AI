@@ -21,6 +21,11 @@ export async function signUp(params: SignUpParams) {
         await db.collection('users').doc(uid).set({
             name, email
         })
+
+        return {
+            success: true,
+            message: "Account created successfully. Please sign in.", 
+        }
     }
     catch (e: any) {
         console.error("Error creating a user", e);
@@ -52,7 +57,7 @@ export async function signIn (params: SignInParams) {
             }
         }
         await setSessionCookie(idToken);
-        
+
     } catch (e: any) {
         console.error("Error signing in", e);
 
