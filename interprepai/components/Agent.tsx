@@ -1,19 +1,37 @@
 'use client'
 import { cn } from '@/lib/utils';
 import Image from 'next/image'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 enum CallStatus {
-    INACTIVE = 'INACTIVE',
-    CONNECTING = 'CONNECTING',
-    ACTIVE = 'ACTIVE',
-    FINISHED = 'FINISHED'
+    INACTIVE = "INACTIVE",
+    CONNECTING = "CONNECTING",
+    ACTIVE = "ACTIVE",
+    FINISHED = "FINISHED",
 }
 
-const Agent = ({ userName }: AgentProps) => {
+
+const Agent = ({
+    userName,
+    userId,
+    type,
+}: AgentProps) => {
+
+    // const router = useRouter();
+    // const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
+    // //   const [messages, setMessages] = useState<SavedMessage[]>([]);
+    // const [isSpeaking, setIsSpeaking] = useState(false);
+    // const [lastMessage, setLastMessage] = useState<string>("");
+
+    const callStatus = CallStatus.ACTIVE;
     const isSpeaking = true;
-    const [status, setStatus] = useState<CallStatus>(CallStatus.INACTIVE);
-    
+    const messages = [
+        'Whats your name?',
+        'My name is Soumodip, nice to meet you!'
+    ];
+    const lastMessage = messages[messages.length - 1];
+
     return (
         <>
             <div className='call-view'>
@@ -31,22 +49,38 @@ const Agent = ({ userName }: AgentProps) => {
                     </div>
                 </div>
             </div>
-                <div className='w-full flex justify-center'>
-                    {status !== CallStatus.ACTIVE ? (
-                        <button className='relative btn-call'>
-                            <span className={cn('absolute aniamte-ping rounded-full opacity-75', status !==='CONNECTING' & 'hidden')} />
-                                
-                            <span>
-                            </span>
-                        </button>
-                    ) : (
-                        <button className='btn-disconnect'>
-                            End
-                        </button>
-                    )}
+            {messages.length > 0 && (
+                <div className='transcript-border'>
+                    <div className='transcript'>
+                        <p key={lastMessage} className={cn('transition-opacity duration-500 opacity-0', 'animate-fadeIn opacity-100')}>
+                            {lastMessage}
+                        </p>
+                    </div>
                 </div>
+            )}
+            <div className="w-full flex justify-center">
+                {callStatus !== "ACTIVE" ? (
+                    <button className="relative btn-call">
+                        <span
+                            className={cn(
+                                "absolute animate-ping rounded-full opacity-75",
+                                callStatus !== "CONNECTING" && "hidden"
+                            )}
+                        />
+
+                        <span className="relative">
+                            {callStatus === "INACTIVE" || callStatus === "FINISHED"
+                                ? "Call"
+                                : ". . ."}
+                        </span>
+                    </button>
+                ) : (
+                    <button className="btn-disconnect">
+                        End
+                    </button>
+                )}
+            </div>
         </>
     )
 }
-
 export default Agent
