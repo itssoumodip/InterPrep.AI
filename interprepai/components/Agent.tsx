@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { cn } from '@/lib/utils';
 import { vapi } from '@/lib/vapi.sdk';
 import Image from 'next/image'
@@ -27,7 +27,7 @@ const Agent = ({
     const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
     const [messages, setMessages] = useState<SavedMessage[]>([]);
     const [isSpeaking, setIsSpeaking] = useState(false);
-    const [lastMessage, setLastMessage] = useState<string>("");
+    // const [lastMessage, setLastMessage] = useState<string>("");
 
     useEffect(() => {
         const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
