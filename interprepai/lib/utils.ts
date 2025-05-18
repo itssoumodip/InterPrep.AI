@@ -22,9 +22,17 @@ const checkIconExists = async (url: string) => {
   }
 };
 
-export const getTechLogos = async (techArray: string[]) => {
+export const getTechLogos = async (techArray: string[] | undefined) => {
+  if (!techArray || !Array.isArray(techArray)) {
+    return []; // Return empty array if techArray is undefined or not an array
+  }
+  
   const logoURLs = techArray.map((tech) => {
+    if (!tech) return { tech: 'unknown', url: '/tech.svg' };
+    
     const normalized = normalizeTechName(tech);
+    if (!normalized) return { tech, url: '/tech.svg' };
+    
     return {
       tech,
       url: `${techIconBaseURL}/${normalized}/${normalized}-original.svg`,
