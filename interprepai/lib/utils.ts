@@ -6,11 +6,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const techIconBaseURL = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+const techIconBaseURL = "https://raw.githubusercontent.com/devicons/devicon/6910f0503efdd315c8f9b858234310c06e04d9c0/icons/";
 
 const normalizeTechName = (tech: string) => {
+  if (!tech) return null;
   const key = tech.toLowerCase().replace(/\.js$/, "").replace(/\s+/g, "");
-  return mappings[key as keyof typeof mappings];
+  return mappings[key as keyof typeof mappings] || key; // Return the key itself if not found in mappings
 };
 
 const checkIconExists = async (url: string) => {
@@ -22,20 +23,18 @@ const checkIconExists = async (url: string) => {
   }
 };
 
-export const getTechLogos = async (techArray: string[] | undefined) => {
-  if (!techArray || !Array.isArray(techArray)) {
-    return []; // Return empty array if techArray is undefined or not an array
+export const getTechLogos = async (techArray? : string[]) => {
+  // If techArray is undefined or empty, return an empty array
+  if (!techArray || techArray.length === 0) {
+    return [];
   }
   
   const logoURLs = techArray.map((tech) => {
-    if (!tech) return { tech: 'unknown', url: '/tech.svg' };
-    
     const normalized = normalizeTechName(tech);
-    if (!normalized) return { tech, url: '/tech.svg' };
-    
+    console.log("Normalized tech name:", normalized);
     return {
       tech,
-      url: `${techIconBaseURL}/${normalized}/${normalized}-original.svg`,
+      url: normalized ? `${techIconBaseURL}/${normalized}/${normalized}-original.svg` : "/tech.svg",
     };
   });
 
