@@ -21,6 +21,8 @@ const Agent = ({
     userName,
     userId,
     type,
+    interviewId,
+    questions
 }: AgentProps) => {
 
     const router = useRouter();
@@ -61,9 +63,34 @@ const Agent = ({
         }
     }, [])
 
+    const handleGenarateFeedback = async (messages: SavedMessage[]) => {
+       
+        console.log('Generating feedback...');
+        const { success, id } = {
+            success: true,
+            id: 'feedback-id'
+        }
+        
+        if (success && id) {
+            router.push(`/interview/${interviewId}/feedback`);
+        } 
+        else {
+            console.log('Error generating feedback');
+            router.push('/');
+        }
+
+    }
+
     useEffect(() => {
-        if (callStatus === CallStatus.FINISHED) router.push('/');
-    }, [messages, callStatus, type, userId]);
+        if (callStatus === CallStatus.FINISHED) {
+            if(type === 'generate') {
+                router.push('/');
+            }
+            else {
+                handleGenarateFeedback(messages);
+            }
+        }
+    }, [messages, callStatus, type, userId])
 
     const handleCall = async () => {
         setCallStatus(CallStatus.CONNECTING);
