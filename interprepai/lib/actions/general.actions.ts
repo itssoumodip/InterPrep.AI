@@ -66,11 +66,14 @@ import { db } from "@/firebase/admin";
 //   }
 // }
 
-// export async function getInterviewById(id: string): Promise<Interview | null> {
-//   const interview = await db.collection("interviews").doc(id).get();
+export async function getInterviewById(id: string): Promise<Interview | null> {
+  const interview = await db
+  .collection("interviews")
+  .doc(id)
+  .get();
 
-//   return interview.data() as Interview | null;
-// }
+  return interview.data() as Interview | null;
+}
 
 // export async function getFeedbackByInterviewId(
 //   params: GetFeedbackByInterviewIdParams

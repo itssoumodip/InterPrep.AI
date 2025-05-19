@@ -1,6 +1,8 @@
 import React from 'react'
 
-const page = () => {
+const page = ({params}: RouteParams) => {
+    const {id} = params;
+    const 
   return (
     <div>page</div>
   )
