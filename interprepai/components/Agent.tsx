@@ -94,14 +94,22 @@ const Agent = ({
 
     const handleCall = async () => {
         setCallStatus(CallStatus.CONNECTING);
-        await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
-            clientMessages: [],
-            serverMessages: [],
-            variableValues: {
-                username: userName,
-                userid: userId,
-            },
-        });
+
+        if (type === 'generate') {
+            await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+                clientMessages: [],
+                serverMessages: [],
+                variableValues: {
+                    username: userName,
+                    userid: userId,
+                },
+            });
+        } else {
+            let formattedQuestions = '';
+            if (questions) { 
+                formattedQuestions = 
+            }
+        }
     }
     const handleDisconnect = async () => {
         setCallStatus(CallStatus.FINISHED);
