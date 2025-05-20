@@ -143,9 +143,11 @@ const Agent = ({
                     <h3>AI Interviewer</h3>
                 </div>
                 <div className='card-border'>
-                    <div className='card-content'>
-                        <Image src="/user-avatar.png" alt="user avatar" width={540} height={540} className='rounded-full object-cover size-[120px]' />
-                        <h3>{userName}</h3>
+                    <div className='card-interviewer'>
+                    <div className='avatar'>
+                        <Image src="/user-avatar.png" alt="user avatar" width={240} height={240} className='rounded-full object-cover size-[80px]' />
+                        </div>
+                        <h3 className='capitalize'>{userName}</h3>
                     </div>
                 </div>
             </div>
