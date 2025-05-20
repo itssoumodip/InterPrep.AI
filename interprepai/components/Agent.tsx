@@ -1,4 +1,5 @@
 'use client';
+import { interviewer } from '@/constants';
 import { cn } from '@/lib/utils';
 import { vapi } from '@/lib/vapi.sdk';
 import Image from 'next/image'
@@ -104,11 +105,23 @@ const Agent = ({
                     userid: userId,
                 },
             });
-        } else {
+        } 
+        else {
             let formattedQuestions = '';
+
             if (questions) { 
-                formattedQuestions = 
+                formattedQuestions = questions
+                    .map((question) => `- ${question}`)
+                    .join('\n');
             }
+
+            await vapi.start(interviewer, {
+                clientMessages: [],
+                serverMessages: [],
+                variableValues: {
+                    questions: formattedQuestions
+                }
+            })
         }
     }
     const handleDisconnect = async () => {
