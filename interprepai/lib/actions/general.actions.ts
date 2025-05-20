@@ -17,7 +17,7 @@ export async function createFeedback(params: CreateFeedbackParams) {
       )
       .join("");
 
-    const { object: {totalScore, categoryScores, strengths, areasForImprovement, finalAssessment} } = await generateObject({
+    const { object } = await generateObject({
       model: google("gemini-2.0-flash-001", {
         structuredOutputs: false,
       }),
@@ -39,13 +39,13 @@ export async function createFeedback(params: CreateFeedbackParams) {
     });
 
     const feedback = {
-      interviewId,
-      userId,
-      totalScore,
-      categoryScores,
-      strengths,
-      areasForImprovement,
-      finalAssessment,
+      interviewId: interviewId,
+      userId: userId,
+      totalScore: object.totalScore,
+      categoryScores: object.categoryScores,
+      strengths: object.strengths,
+      areasForImprovement: object.areasForImprovement,
+      finalAssessment: object.finalAssessment,
       createdAt: new Date().toISOString(),
     };
 
@@ -67,31 +67,28 @@ export async function createFeedback(params: CreateFeedbackParams) {
 }
 
 export async function getInterviewById(id: string): Promise<Interview | null> {
-  const interview = await db
-  .collection("interviews")
-  .doc(id)
-  .get();
+  const interview = await db.collection("interviews").doc(id).get();
 
   return interview.data() as Interview | null;
 }
 
-// export async function getFeedbackByInterviewId(
-//   params: GetFeedbackByInterviewIdParams
-// ): Promise<Feedback | null> {
-//   const { interviewId, userId } = params;
+export async function getFeedbackByInterviewId(
+  params: GetFeedbackByInterviewIdParams
+): Promise<Feedback | null> {
+  const { interviewId, userId } = params;
 
-//   const querySnapshot = await db
-//     .collection("feedback")
-//     .where("interviewId", "==", interviewId)
-//     .where("userId", "==", userId)
-//     .limit(1)
-//     .get();
+  const querySnapshot = await db
+    .collection("feedback")
+    .where("interviewId", "==", interviewId)
+    .where("userId", "==", userId)
+    .limit(1)
+    .get();
 
-//   if (querySnapshot.empty) return null;
+  if (querySnapshot.empty) return null;
 
-//   const feedbackDoc = querySnapshot.docs[0];
-//   return { id: feedbackDoc.id, ...feedbackDoc.data() } as Feedback;
-// }
+  const feedbackDoc = querySnapshot.docs[0];
+  return { id: feedbackDoc.id, ...feedbackDoc.data() } as Feedback;
+}
 
 export async function getLatestInterviews(
   params: GetLatestInterviewsParams
@@ -126,4 +123,3 @@ export async function getInterviewsByUserId(
     ...doc.data(),
   })) as Interview[];
 }
-
