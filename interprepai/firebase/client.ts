@@ -1,5 +1,5 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
+import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-// const analytics = getAnalytics(app);
-
+const analytics = getAnalytics(app);
+console.log("Firebase Analytics initialized:", analytics);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
