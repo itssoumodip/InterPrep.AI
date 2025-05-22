@@ -132,7 +132,7 @@ async function Home() {
           ) : (
             <div className="w-full py-12 flex flex-col items-center justify-center bg-dark-300/30 rounded-2xl border border-light-800/10 backdrop-blur-sm">
               <Image src="/file.svg" width={64} height={64} alt="No Interviews" className="opacity-50 mb-4" />
-              <p className="text-light-400 align-center text-lg">There are no interviews available at the moment</p>
+              <p className="text-light-400 align-center text-center text-lg">There are no interviews available at the moment</p>
             </div>
           )}
         </div>
