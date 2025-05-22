@@ -177,6 +177,10 @@
   .btn-primary {
     @apply w-fit !bg-primary-200 !text-dark-100 hover:!bg-primary-200/80 !rounded-full !font-bold px-5 cursor-pointer min-h-10;
   }
+  
+  .hover\:shadow-glow:hover {
+    box-shadow: 0 0 15px rgba(202, 197, 254, 0.5);
+  }
   .btn-secondary {
     @apply w-fit !bg-dark-200 !text-primary-200 hover:!bg-dark-200/80 !rounded-full !font-bold px-5 cursor-pointer min-h-10;
   }
@@ -184,9 +188,8 @@
   .btn-upload {
     @apply bg-dark-200 rounded-full min-h-12 px-5 cursor-pointer border border-input  overflow-hidden;
   }
-
   .card-border {
-    @apply border-gradient p-0.5 rounded-2xl w-fit;
+    @apply bg-gradient-to-b from-light-400/30 via-primary-200/20 to-transparent p-[1.5px] rounded-2xl w-full;
   }
 
   .card {
@@ -270,7 +273,7 @@
   }
 
   .interviews-section {
-    @apply flex flex-wrap gap-4 max-lg:flex-col w-full items-stretch;
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full items-stretch;
   }
 
   .interview-text {
@@ -322,6 +325,10 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
+@utility shadow-glow {
+  @apply shadow-[0_0_15px_rgba(202,197,254,0.5)];
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -331,4 +338,30 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes subtle-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-subtle-float {
+  animation: subtle-float 4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
 }

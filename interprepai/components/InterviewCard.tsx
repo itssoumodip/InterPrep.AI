@@ -28,7 +28,7 @@ const InterviewCard = async ({
 
   const badgeColor =
     {
-      Behavioral: "bg-light-400",
+      Behavioral: "bg-primary-100",
       Mixed: "bg-light-600",
       Technical: "bg-light-800",
     }[normalizedType] || "bg-light-600";
@@ -38,68 +38,74 @@ const InterviewCard = async ({
   ).format("MMM D, YYYY");
 
   return (
-    <div className="card-border w-[360px] max-sm:w-full min-h-96">
+    <div className="card-border w-[360px] max-sm:w-full min-h-96 hover:scale-[1.02] transition-all duration-300">
       <div className="card-interview">
         <div>
           {/* Type Badge */}
           <div
             className={cn(
-              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg",
+              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg backdrop-blur-sm shadow-md",
               badgeColor
             )}
           >
-            <p className="badge-text ">{normalizedType}</p>
+            <p className="badge-text font-medium">{normalizedType}</p>
           </div>
 
-          {/* Cover Image */}
-          <Image
-            src={getRandomInterviewCover()}
-            alt="cover-image"
-            width={90}
-            height={90}
-            className="rounded-full object-fit size-[90px]"
-          />
+          
 
           {/* Interview Role */}
-          <h3 className="mt-5 capitalize">{role} Interview</h3>
+          <div className=""></div>
+          <h3 className="mt-5 capitalize text-primary-100 font-bold ">
+            {role} Interview</h3>
 
           {/* Date & Score */}
-          <div className="flex flex-row gap-5 mt-3">
-            <div className="flex flex-row gap-2">
+          <div className="flex flex-row gap-6 mt-4 items-center">
+            <div className="flex flex-row gap-3 items-center backdrop-blur-sm bg-dark-300/50 px-3 py-1.5 rounded-full">
               <Image
                 src="/calendar.svg"
-                width={22}
-                height={22}
+                width={18}
+                height={18}
                 alt="calendar"
+                className="opacity-80"
               />
-              <p>{formattedDate}</p>
+              <p className="text-sm">{formattedDate}</p>
             </div>
 
-            <div className="flex flex-row gap-2 items-center">
-              <Image src="/star.svg" width={22} height={22} alt="star" />
-              <p>{feedback?.totalScore || "---"}/100</p>
+            <div className="flex flex-row gap-3 items-center backdrop-blur-sm bg-dark-300/50 px-3 py-1.5 rounded-full">
+              <Image 
+                src="/star.svg" 
+                width={18} 
+                height={18} 
+                alt="star" 
+                className="opacity-80"
+              />
+              <p className="text-sm font-medium">{feedback?.totalScore || "---"}/100</p>
             </div>
           </div>
 
           {/* Feedback or Placeholder Text */}
-          <p className="line-clamp-2 mt-5">
-            {feedback?.finalAssessment ||
-              "You haven't taken this interview yet. Take it now to improve your skills."}
-          </p>
+          <div className="mt-6 backdrop-blur-sm bg-dark-300/30 p-4 rounded-xl">
+            <p className="line-clamp-2 text-sm">
+              {feedback?.finalAssessment ||
+                "You haven't taken this interview yet. Take it now to improve your skills."}
+            </p>
+          </div>
         </div>
 
-        <div className="flex flex-row justify-between">
-          <DisplayTechIcons techStack={techstack} />
-
-          <Button className="btn-primary">
+        <div className="flex flex-row justify-between items-center mt-2">
+          <DisplayTechIcons techStack={techstack} />          <Button 
+            className="btn-primary transition-all duration-300 hover:shadow-[0_0_15px_rgba(202,197,254,0.5)]"
+          >
             <Link
               href={
                 feedback
                   ? `/interview/${interviewId}/feedback`
                   : `/interview/${interviewId}`
               }
+              className="flex items-center gap-2"
             >
               {feedback ? "Check Feedback" : "View Interview"}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </Link>
           </Button>
         </div>
