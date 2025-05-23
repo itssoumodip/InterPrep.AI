@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
 import { auth } from "@/firebase/client";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,6 +32,7 @@ const authFormSchema = (type: FormType) => {
 
 const AuthForm = ({ type }: { type: FormType }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,6 +45,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     try {
       if (type === "sign-up") {
         const { name, email, password } = data;
@@ -89,10 +92,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
         toast.success("Signed in successfully.");
         router.push("/");
-      }
-    } catch (error) {
+      }    } catch (error) {
       console.log(error);
       toast.error(`There was an error: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -163,17 +167,26 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 label="Password"
                 placeholder="••••••••"
                 type="password"
-              />
-
-              <div className="pt-2">                <Button 
+              />              <div className="pt-2">                <Button 
                   className={cn(
                     "w-full h-14 text-base font-medium rounded-xl",
                     "bg-gradient-to-r from-primary-100 via-primary-200 to-primary-100 hover:opacity-90 transition-all duration-300",
                     "shadow-md hover:shadow-lg shadow-primary-100/20"
                   )}
                   type="submit"
+                  disabled={isLoading}
                 >
-                  {isSignIn ? "Sign In" : "Create Account"}
+                  {isLoading ? (
+                    <div className="flex items-center gap-2">
+                      <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-dark-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      {isSignIn ? "Signing in..." : "Creating account..."}
+                    </div>
+                  ) : (
+                    isSignIn ? "Sign In" : "Create Account"
+                  )}
                 </Button>
               </div>
             </form>
